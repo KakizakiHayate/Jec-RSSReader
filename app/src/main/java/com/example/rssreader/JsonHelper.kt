@@ -29,6 +29,5 @@ class JsonHelper {
             tmp.link = json.getString("link")
             return tmp
         }
-
     }
 }
