@@ -1,6 +1,8 @@
 package com.example.rssreader
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -52,6 +54,9 @@ class MainActivity : AppCompatActivity() {
             // ここにリストの項目がクリックされたときの処理を書く
             val item = adapterView.adapter.getItem(position) as RssItem
             Toast.makeText(this@MainActivity, item.link, Toast.LENGTH_SHORT).show()
+            val uri = Uri.parse(item.link)
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
         }
     }
 
