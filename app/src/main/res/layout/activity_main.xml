@@ -4,19 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
     android:background="#FFCC88"
-    >
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/txtAcquisitionNews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="casual"
         android:text="Soccer News"
         android:textAlignment="center"
         android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/txtPubDate2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
 
     <ListView
         android:id="@+id/resultList"

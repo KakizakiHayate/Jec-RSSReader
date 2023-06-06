@@ -2,6 +2,7 @@ package com.example.rssreader
 
 import android.content.Context
 import android.content.Intent
+import android.media.Image
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,7 +10,9 @@ import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
 import android.widget.ArrayAdapter
+import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
@@ -21,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var adapter: RowModelAdapter
     lateinit var handler: Handler
     lateinit var executorService: ExecutorService
+//    lateinit var imageButton: ImageButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -30,12 +34,14 @@ class MainActivity : AppCompatActivity() {
         executorService = Executors.newSingleThreadExecutor()
         adapter = RowModelAdapter(this)
 
+
         var list = findViewById<ListView>(R.id.resultList)
         list.adapter = adapter
         list.setOnItemClickListener { adapterView, view, position, id ->
             // ここにリストの項目がクリックされたときの処理を書く
             val item = adapterView.adapter.getItem(position) as RssItem
             Toast.makeText(this@MainActivity, item.link, Toast.LENGTH_SHORT).show()
+            // ここで別ページにアクセス
             val uri = Uri.parse(item.link)
             val intent = Intent(Intent.ACTION_VIEW, uri)
             startActivity(intent)
@@ -57,13 +63,14 @@ class MainActivity : AppCompatActivity() {
 //        return jsonString
 //    }
 
+    // データの一覧をリストなどのビューに渡すために使用されるクラス
         inner class RowModelAdapter(context: Context): ArrayAdapter<RssItem>(context, R.layout.row_item) {
          override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
              val item = getItem(position) as RssItem
              var convertView = convertView
                  var inflater = layoutInflater
                  convertView = inflater.inflate(R.layout.row_item, null)
-
+//             val rssItem = list.[position]
              if (item != null) {
                  val txtTitle = convertView?.findViewById<TextView>(R.id.txtTitle)
                  if (txtTitle != null) {
@@ -73,6 +80,19 @@ class MainActivity : AppCompatActivity() {
                  if (txtLink != null) {
                      txtLink.text = item.link
                  }
+                 val txtPubData = convertView?.findViewById<TextView>(R.id.txtPubDate)
+                 if (txtPubData != null) {
+                     txtPubData.text = item.pubDate
+                 }
+                 val txtAcquisitionNews = findViewById<TextView>(R.id.txtPubDate2)
+                 if (txtAcquisitionNews != null) {
+                     txtAcquisitionNews.text = item.pubDates
+                 }
+//                 val imageButton = convertView?.findViewById<ImageButton>(R.id.imageButton)
+//                 imageButton?.setOnClickListener {
+//                     val item = adapterView.adapter.getItem(position) as RssItem
+//                     Toast.makeText(this@MainActivity, item.link, Toast.LENGTH_SHORT).show()
+//                 }
              }
              return convertView
          }
