@@ -16,6 +16,8 @@ import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.os.HandlerCompat
+import java.text.SimpleDateFormat
+import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -23,7 +25,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var adapter: RowModelAdapter
     lateinit var handler: Handler
     lateinit var executorService: ExecutorService
-//    lateinit var imageButton: ImageButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -50,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         inner class RowModelAdapter(context: Context): ArrayAdapter<RssItem>(context, R.layout.row_item) {
          override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
              val item = getItem(position) as RssItem
+             Log.e("MainMain", "format" + item.pubDate)
              var convertView = convertView
                  var inflater = layoutInflater
                  convertView = inflater.inflate(R.layout.row_item, null)
@@ -65,11 +67,28 @@ class MainActivity : AppCompatActivity() {
                  }
                  val txtPubData = convertView?.findViewById<TextView>(R.id.txtPubDate)
                  if (txtPubData != null) {
-                     txtPubData.text = item.pubDate
+                     Log.i("MainMain", "format" + item.pubDate)
+                     val inputFormat = "EEE, dd MMM yyyy HH:mm:ss z"
+                     val outputFormat = "yyyy/MM/dd(EEE) HH:mm:ss'更新'"
+
+                     val dateFormat = SimpleDateFormat(inputFormat, Locale.US)
+                     val date = dateFormat.parse(item.pubDate)
+
+                     val outputDateFormat = SimpleDateFormat(outputFormat, Locale.JAPAN)
+                     val outputDate = outputDateFormat.format(date)
+                     txtPubData.text = outputDate
                  }
                  val txtAcquisitionNews = findViewById<TextView>(R.id.txtPubDate2)
                  if (txtAcquisitionNews != null) {
-                     txtAcquisitionNews.text = item.pubDates
+                     val inputFormat = "EEE, dd MMM yyyy HH:mm:ss z"
+                     val outputFormat = "yyyy/MM/dd(EEE) HH:mm:ss'更新'"
+
+                     val dateFormat = SimpleDateFormat(inputFormat, Locale.US)
+                     val date = dateFormat.parse(item.pubDates)
+
+                     val outputDateFormat = SimpleDateFormat(outputFormat, Locale.JAPAN)
+                     val outputDate = outputDateFormat.format(date)
+                     txtAcquisitionNews.text = outputDate
                  }
                  val imageButton = convertView?.findViewById<ImageButton>(R.id.imageButton)
                  imageButton?.setOnClickListener {
