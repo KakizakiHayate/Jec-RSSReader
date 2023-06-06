@@ -4,18 +4,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.webkit.WebView
 
-class WebviewActivity(url: String) : AppCompatActivity() {
-    private var url: String
-    init {
-        this.url = url
-    }
+class WebviewActivity: AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_webview)
 
         val webview = findViewById<WebView>(R.id.webView)
+        val intent = intent
+        val urlStr = intent.getStringExtra("URL")
         webview.settings.javaScriptEnabled = true
-        webview.loadUrl(url)
+        webview.loadUrl(urlStr!!)
 
     }
 }

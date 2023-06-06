@@ -10,7 +10,6 @@ import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
 import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.ListView
@@ -34,18 +33,8 @@ class MainActivity : AppCompatActivity() {
         executorService = Executors.newSingleThreadExecutor()
         adapter = RowModelAdapter(this)
 
-
         var list = findViewById<ListView>(R.id.resultList)
         list.adapter = adapter
-        list.setOnItemClickListener { adapterView, view, position, id ->
-            // ここにリストの項目がクリックされたときの処理を書く
-            val item = adapterView.adapter.getItem(position) as RssItem
-            Toast.makeText(this@MainActivity, item.link, Toast.LENGTH_SHORT).show()
-            // ここで別ページにアクセス
-            val uri = Uri.parse(item.link)
-            val intent = Intent(Intent.ACTION_VIEW, uri)
-            startActivity(intent)
-        }
         val uriBuilder = Uri.Builder()
         uriBuilder.scheme("https")
         uriBuilder.authority("jec-cm-linux2020.lolipop.io")
@@ -56,12 +45,6 @@ class MainActivity : AppCompatActivity() {
         val asyncHttpRequest = AsyncHttpRequest(handler, this@MainActivity, uriBuilder.toString())
         executorService.submit(asyncHttpRequest)
     }
-
-//    private fun getData(): String {
-//        val inputStream = resources.assets.open("rss.json")
-//        val jsonString = inputStream.bufferedReader().use { it.readText() }
-//        return jsonString
-//    }
 
     // データの一覧をリストなどのビューに渡すために使用されるクラス
         inner class RowModelAdapter(context: Context): ArrayAdapter<RssItem>(context, R.layout.row_item) {
@@ -88,11 +71,12 @@ class MainActivity : AppCompatActivity() {
                  if (txtAcquisitionNews != null) {
                      txtAcquisitionNews.text = item.pubDates
                  }
-//                 val imageButton = convertView?.findViewById<ImageButton>(R.id.imageButton)
-//                 imageButton?.setOnClickListener {
-//                     val item = adapterView.adapter.getItem(position) as RssItem
-//                     Toast.makeText(this@MainActivity, item.link, Toast.LENGTH_SHORT).show()
-//                 }
+                 val imageButton = convertView?.findViewById<ImageButton>(R.id.imageButton)
+                 imageButton?.setOnClickListener {
+                     val intent = Intent(applicationContext, WebviewActivity::class.java)
+                     intent.putExtra("URL", item.link)
+                     startActivity(intent)
+                 }
              }
              return convertView
          }
