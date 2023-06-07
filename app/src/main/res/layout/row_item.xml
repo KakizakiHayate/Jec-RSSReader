@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/bu_fabric01_03next"
-        />
+        android:background="@null"
+        android:src="@drawable/icon_pushpin02_38" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -37,6 +37,13 @@
             android:layout_height="wrap_content"
             android:text="TextView"
             android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/btnJumpPage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ページに飛ぶ" />
+
     </LinearLayout>
 
 </LinearLayout>
